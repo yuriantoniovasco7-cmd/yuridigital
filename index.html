@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-MZ">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QB0MHSXZ5R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QB0MHSXZ5R');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yuri Digital — Páginas & Soluções Web</title>
@@ -212,11 +221,41 @@
 
   footer { background: var(--marinho); padding: 28px 0; font-size: 0.8rem; color: #64748b; }
 
-  .whatsapp-fixo {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--whatsapp); color: #06280f;
-    text-align: center; padding: 15px; font-weight: 700; text-decoration: none; z-index: 30;
+  /* Serviços — com ícone próprio, não fotos de banco de imagens */
+  .grelha-servicos { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 700px) { .grelha-servicos { grid-template-columns: repeat(3, 1fr); } }
+  .servico-card {
+    background: #fff; border: 1px solid var(--linha); border-radius: var(--raio);
+    padding: 24px;
   }
+  .servico-card .icone-servico {
+    width: 46px; height: 46px; border-radius: 12px; background: #eff6ff;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .servico-card h3 { font-size: 1.05rem; color: var(--marinho); margin-bottom: 6px; }
+  .servico-card p { font-size: 0.9rem; color: var(--texto-suave); margin-bottom: 12px; }
+  .servico-card .servico-preco { font-weight: 700; color: var(--acao); font-size: 0.85rem; }
+
+  /* Exemplo de logótipo */
+  .exemplo-logo {
+    display: flex; flex-wrap: wrap; gap: 24px; align-items: center;
+    background: #fff; border: 1px solid var(--linha); border-radius: var(--raio);
+    padding: 24px; max-width: 620px;
+  }
+  .exemplo-logo .badge-svg { flex-shrink: 0; }
+  .exemplo-logo .legenda .rotulo-prova { font-size: 0.82rem; color: var(--acao); font-weight: 700; margin-bottom: 6px; }
+  .exemplo-logo .legenda p { font-size: 0.92rem; color: var(--texto-suave); max-width: 32ch; }
+
+  /* Outros serviços — cartões simples, mesma família visual dos pacotes */
+  .grelha-outros { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 24px; }
+  @media (min-width: 700px) { .grelha-outros { grid-template-columns: 1fr 1fr; } }
+  .outro-servico {
+    border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; background: #fff;
+  }
+  .outro-servico h3 { font-size: 1.05rem; color: var(--marinho); margin-bottom: 8px; }
+  .outro-servico .preco { font-size: 1.25rem; font-weight: 800; color: var(--marinho); margin-bottom: 10px; }
+  .outro-servico ul { padding-left: 18px; font-size: 0.92rem; }
+  .outro-servico li { margin-bottom: 5px; color: var(--texto-suave); }
 </style>
 </head>
 <body>
@@ -254,7 +293,7 @@
             <div class="balao enviada">Bem-vindo! A tua página fica pronta em 7 dias 😊</div>
             <div class="pagina-preview">
               <div class="quadrado"></div>
-              <div>https://yuriantoniovasco7-cmd.github.io/yuridigital/</div>
+              <div>pagina-do-teu-negocio.netlify.app</div>
             </div>
           </div>
         </div>
@@ -280,11 +319,59 @@
   </div>
 </div>
 
+<section id="servicos">
+  <div class="wrap-estreito">
+    <h2>O que faço</h2>
+    <div class="grelha-servicos">
+
+      <div class="servico-card">
+        <div class="icone-servico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="7" y1="13" x2="14" y2="13"/>
+            <line x1="7" y1="16" x2="11" y2="16"/>
+          </svg>
+        </div>
+        <h3>Páginas Web</h3>
+        <p>Página profissional, pronta para telemóvel, ligada directamente ao teu WhatsApp.</p>
+        <div class="servico-preco">Desde 1.250 MT</div>
+      </div>
+
+      <div class="servico-card">
+        <div class="icone-servico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="15" r="5"/>
+            <circle cx="15" cy="9" r="5" stroke="#38bdf8"/>
+          </svg>
+        </div>
+        <h3>Criação de Logótipo</h3>
+        <p>Identidade visual simples e profissional para o teu negócio, pronta a usar.</p>
+        <div class="servico-preco">Desde 500 MT</div>
+      </div>
+
+      <div class="servico-card">
+        <div class="icone-servico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16v12H8l-4 4V4z"/>
+            <line x1="8" y1="9" x2="16" y2="9"/>
+            <line x1="8" y1="12.5" x2="13" y2="12.5"/>
+          </svg>
+        </div>
+        <h3>Catálogo WhatsApp</h3>
+        <p>Organizo os teus produtos e preços dentro do WhatsApp Business.</p>
+        <div class="servico-preco">Desde 300 MT</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section id="prova">
   <div class="wrap-estreito">
     <h2>Um exemplo real</h2>
     <div class="prova">
-      <div class="rotulo-prova">Jeckson Gosalo</div>
+      <div class="rotulo-prova">CLIENTE ACTUAL</div>
       <h3>Jeckson Barbeiro Sorriso — Macuti, Beira</h3>
       <p>Página com tabela de preços, galeria de trabalhos e botão directo de agendamento no WhatsApp. Publicada em menos de 7 dias, sem custo de alojamento.</p>
       <a class="ver-site" href="https://yuriantoniovasco7-cmd.github.io/BarbeariaJackson/">Ver o site →</a>
@@ -326,7 +413,7 @@
         <ul>
           <li>Página do teu negócio, pronta para telemóvel</li>
           <li>Catálogo no WhatsApp</li>
-          <li>Fotos dos teu produto ou serviço</li>
+          <li>Fotos dos teus produtos ou serviços</li>
           <li>Botão directo de contacto</li>
           <li>Entrega em até 7 dias</li>
         </ul>
@@ -341,6 +428,42 @@
           <li>Ajustes incluídos após entrega</li>
           <li>Ensino rápido para actualizares o conteúdo</li>
         </ul>
+      </div>
+    </div>
+
+    <div class="grelha-outros">
+      <div class="outro-servico">
+        <h3>Criação de Logótipo</h3>
+        <div class="preco">500 – 1.500 MT</div>
+        <ul>
+          <li>Design simples e profissional</li>
+          <li>2 propostas iniciais + 1 ronda de ajustes</li>
+          <li>Ficheiro final em PNG (digital e impressão)</li>
+        </ul>
+      </div>
+      <div class="outro-servico">
+        <h3>Configuração de Catálogo WhatsApp</h3>
+        <div class="preco">300 – 600 MT</div>
+        <ul>
+          <li>Organização dos teus produtos/serviços no WhatsApp Business</li>
+          <li>Fotos e preços prontos a mostrar</li>
+          <li>Pronto para enviares aos teus clientes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exemplo-logo" style="margin-top: 24px;">
+      <svg class="badge-svg" width="90" height="90" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="42" fill="none" stroke="#0f172a" stroke-width="2"/>
+        <circle cx="45" cy="45" r="36" fill="none" stroke="#38bdf8" stroke-width="1"/>
+        <path d="M32 38 h20 v14 a10 10 0 0 1 -20 0 z" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M52 42 h5 a5 5 0 0 1 0 10 h-5" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+        <text x="45" y="68" text-anchor="middle" font-family="system-ui, sans-serif" font-size="6.5" font-weight="800" fill="#0f172a" letter-spacing="0.5">CAFÉ AROMA</text>
+        <text x="45" y="75" text-anchor="middle" font-family="system-ui, sans-serif" font-size="4.5" fill="#64748b" letter-spacing="1">BEIRA</text>
+      </svg>
+      <div class="legenda">
+        <div class="rotulo-prova">EXEMPLO ILUSTRATIVO</div>
+        <p>Um logótipo simples, feito para caber bem numa página web, num catálogo do WhatsApp e numa placa impressa.</p>
       </div>
     </div>
   </div>
