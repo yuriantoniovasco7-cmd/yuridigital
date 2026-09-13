@@ -41,9 +41,9 @@
     background: var(--fundo);
     color: var(--marinho);
     line-height: 1.55;
-    padding-bottom: 66px;
+    padding-bottom: 70px;
   }
-  a { color: inherit; }
+  a { color: inherit; text-decoration: none; }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--ciano); outline-offset: 3px; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
   .wrap-estreito { max-width: 720px; margin: 0 auto; padding: 0 24px; }
@@ -65,7 +65,7 @@
     border-radius: var(--raio); text-decoration: none;
   }
 
-  /* ---------- Hero: assimétrico, dois blocos ---------- */
+  /* ---------- Hero ---------- */
   .hero {
     background: var(--marinho); color: #fff;
     padding: 52px 0 60px;
@@ -100,7 +100,7 @@
   .hero .cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,99,235,0.3); }
   .hero .resposta { font-size: 0.85rem; color: #64748b; }
 
-  /* ---------- Mockup de telemóvel com conversa no WhatsApp ---------- */
+  /* ---------- Mockup de telemóvel ---------- */
   .telefone-caixa { display: flex; justify-content: center; animation: subir 0.6s 0.1s ease both; }
   .telefone {
     width: 240px; background: #0b0f19; border-radius: 30px; padding: 12px;
@@ -130,15 +130,11 @@
 
   @keyframes subir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ---------- Faixa de números, com separadores em vez de cartões ---------- */
+  /* ---------- Faixa de números ---------- */
   .faixa { border-bottom: 1px solid var(--linha); background: #fff; }
-  .faixa .wrap {
-    display: flex; flex-wrap: wrap;
-    padding: 22px 24px;
-  }
+  .faixa .wrap { display: flex; flex-wrap: wrap; padding: 22px 24px; }
   .faixa-item {
-    flex: 1 1 33%; min-width: 160px;
-    padding: 6px 20px;
+    flex: 1 1 33%; min-width: 160px; padding: 6px 20px;
     border-left: 1px solid var(--linha);
   }
   .faixa-item:first-child { border-left: none; }
@@ -164,7 +160,7 @@
     border-bottom: 1px solid var(--acao); padding-bottom: 1px;
   }
 
-  /* Processo — sequência real */
+  /* Processo */
   .passos { display: flex; flex-direction: column; gap: 20px; }
   .passo { display: flex; gap: 16px; align-items: flex-start; }
   .passo .num {
@@ -176,7 +172,7 @@
   .passo h3 { font-size: 1rem; color: var(--marinho); margin-bottom: 3px; }
   .passo p { font-size: 0.95rem; color: var(--texto-suave); }
 
-  /* Pacotes — hierarquia real, não gémeos */
+  /* Pacotes */
   .grelha-pacotes { display: grid; grid-template-columns: 1fr; gap: 18px; }
   @media (min-width: 700px) { .grelha-pacotes { grid-template-columns: 1fr 1fr; } }
 
@@ -216,12 +212,11 @@
   }
 
   /* Contacto */
-  .contacto-lista { display: flex; flex-direction: column; gap: 10px; font-size: 0.98rem; }
-  .contacto-lista strong { color: var(--marinho); }
+  .contacto-caixa { display: flex; flex-direction: column; gap: 16px; background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; max-width: 620px; }
 
-  footer { background: var(--marinho); padding: 28px 0; font-size: 0.8rem; color: #64748b; }
+  footer { background: var(--marinho); padding: 28px 0; font-size: 0.8rem; color: #64748b; text-align: center; }
 
-  /* Serviços — com ícone próprio, não fotos de banco de imagens */
+  /* Serviços */
   .grelha-servicos { display: grid; grid-template-columns: 1fr; gap: 16px; }
   @media (min-width: 700px) { .grelha-servicos { grid-template-columns: repeat(3, 1fr); } }
   .servico-card {
@@ -246,7 +241,7 @@
   .exemplo-logo .legenda .rotulo-prova { font-size: 0.82rem; color: var(--acao); font-weight: 700; margin-bottom: 6px; }
   .exemplo-logo .legenda p { font-size: 0.92rem; color: var(--texto-suave); max-width: 32ch; }
 
-  /* Outros serviços — cartões simples, mesma família visual dos pacotes */
+  /* Outros serviços */
   .grelha-outros { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 24px; }
   @media (min-width: 700px) { .grelha-outros { grid-template-columns: 1fr 1fr; } }
   .outro-servico {
@@ -256,6 +251,14 @@
   .outro-servico .preco { font-size: 1.25rem; font-weight: 800; color: var(--marinho); margin-bottom: 10px; }
   .outro-servico ul { padding-left: 18px; font-size: 0.92rem; }
   .outro-servico li { margin-bottom: 5px; color: var(--texto-suave); }
+
+  /* Botão Fixo do WhatsApp */
+  .whatsapp-fixo {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--whatsapp); color: #06280f;
+    text-align: center; padding: 14px; font-weight: 800; font-size: 1rem; z-index: 30;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  }
 </style>
 </head>
 <body>
@@ -293,7 +296,7 @@
             <div class="balao enviada">Bem-vindo! A tua página fica pronta em 7 dias 😊</div>
             <div class="pagina-preview">
               <div class="quadrado"></div>
-              <div>https://yuriantoniovasco7-cmd.github.io/yuridigital/</div>
+              <div>https://yuridigitalmz.github.io/yuridigital/</div>
             </div>
           </div>
         </div>
@@ -347,7 +350,7 @@
         </div>
         <h3>Criação de Logótipo</h3>
         <p>Identidade visual simples e profissional para o teu negócio, pronta a usar.</p>
-        <div class="servico-preco">Desde 400 MT</div>
+        <div class="servico-preco">Desde 700 MT</div>
       </div>
 
       <div class="servico-card">
@@ -374,7 +377,7 @@
       <div class="rotulo-prova">CLIENTE ACTUAL</div>
       <h3>Jeckson Barbeiro Sorriso — Macuti, Beira</h3>
       <p>Página com tabela de preços, galeria de trabalhos e botão directo de agendamento no WhatsApp. Publicada em menos de 7 dias, sem custo de alojamento.</p>
-      <a class="ver-site" href="https://yuridigitalmz.github.io/BarbeariaJackson/">Ver o site →</a>
+      <a class="ver-site" href="https://yuriantoniovasco7-cmd.github.io/BarbeariaJackson/">Ver o site →</a>
     </div>
   </div>
 </section>
@@ -436,7 +439,7 @@
         <h3>Criação de Logótipo</h3>
         <div class="preco">700 – 1.400 MT</div>
         <ul>
-          <li>A sua ideia pode ser uma arte perfita</li>
+          <li>A sua ideia convertida numa arte perfeita</li>
           <li>Design simples e profissional</li>
           <li>2 propostas iniciais + 1 ronda de ajustes</li>
           <li>Ficheiro final em PNG (digital e impressão)</li>
@@ -483,7 +486,9 @@
 <section id="contacto">
   <div class="wrap-estreito">
     <h2>Não fique invisível no mercado. Fale comigo e tenha o seu site profissional!</h2>
-      <div><strong>Zona de atendimento:</strong> 🌐-Beira, Sofala, Moçambque</div>
+    <div class="contacto-caixa" style="margin-top: 16px;">
+      <div><strong>Zona de atendimento:</strong> 🌐 Beira, Sofala, Moçambique</div>
+      <div><strong>Contacto Directo / WhatsApp:</strong> +258 86 064 0555</div>
     </div>
   </div>
 </section>
