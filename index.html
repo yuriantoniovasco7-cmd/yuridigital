@@ -18,6 +18,7 @@
 <meta property="og:description" content="A página do teu negócio, pronta em 7 dias, ligada directamente ao teu WhatsApp.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='16' fill='%232563eb'/%3E%3Cpath d='M 28 30 L 18 40 L 28 50 M 52 30 L 62 40 L 52 50 M 44 25 L 36 55' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
   :root {
@@ -36,14 +37,93 @@
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
 
+  /* ---------- Revelar ao rolar ---------- */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visivel { opacity: 1; transform: translateY(0); }
+
+  /* ---------- Cabeçalho reage ao scroll ---------- */
+  header { transition: box-shadow 0.25s ease; }
+  header.com-scroll { box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+  /* ---------- Elevação ao passar o rato ---------- */
+  .servico-card, .pacote-essencial, .outro-servico, .prova, .exemplo-logo, .catalogo-caixa {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .servico-card:hover, .outro-servico:hover, .exemplo-logo:hover, .catalogo-caixa:hover {
+    transform: translateY(-4px); box-shadow: 0 16px 30px rgba(15,23,42,0.08);
+  }
+  .pacote-essencial:hover { transform: translateY(-4px); box-shadow: 0 16px 30px rgba(15,23,42,0.08); }
+  .pacote-completa { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .pacote-completa:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+  .prova:hover { transform: translateY(-4px); box-shadow: 0 16px 30px rgba(15,23,42,0.08); }
+
+  /* ---------- Pulso no botão principal ---------- */
+  @keyframes pulso { 0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); } 50% { box-shadow: 0 0 0 12px rgba(37,211,102,0); } }
+  .hero .cta { animation: pulso 2.4s ease-in-out infinite; }
+  .hero .cta:hover { animation: none; }
+
+  /* ---------- Formas flutuantes no hero ---------- */
+  .hero { position: relative; overflow: hidden; }
+  .forma-flutuante {
+    position: absolute; border-radius: 40px; pointer-events: none;
+    background: linear-gradient(135deg, rgba(37,99,235,0.16), rgba(56,189,248,0.06));
+    border: 1px solid rgba(148,163,184,0.12);
+  }
+  .forma-flutuante.f1 { width: 180px; height: 180px; top: -40px; right: 6%; transform: rotate(12deg); animation: flutuar1 9s ease-in-out infinite; }
+  .forma-flutuante.f2 { width: 110px; height: 110px; bottom: -20px; left: 4%; transform: rotate(-8deg); animation: flutuar2 11s ease-in-out infinite; }
+  @keyframes flutuar1 { 0%,100% { transform: translateY(0) rotate(12deg); } 50% { transform: translateY(18px) rotate(18deg); } }
+  @keyframes flutuar2 { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(-14deg); } }
+
+  /* ---------- Bolhas a flutuar no fundo do herói ---------- */
+  .bolha {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle at 32% 26%, rgba(255,255,255,0.95), rgba(125,211,252,0.5) 40%, rgba(125,211,252,0) 72%);
+    box-shadow: 0 0 18px 2px rgba(125,211,252,0.55);
+  }
+  .bolha.b1 { width: 26px; height: 26px; top: 18%;  left: 10%; animation: subirBolha1 7s ease-in-out infinite; }
+  .bolha.b2 { width: 16px; height: 16px; top: 62%;  left: 18%; animation: subirBolha2 9s ease-in-out infinite 0.6s; }
+  .bolha.b3 { width: 34px; height: 34px; top: 40%;  left: 46%; animation: subirBolha1 10s ease-in-out infinite 1.2s; }
+  .bolha.b4 { width: 14px; height: 14px; top: 14%;  left: 62%; animation: subirBolha2 6.5s ease-in-out infinite 0.3s; }
+  .bolha.b5 { width: 20px; height: 20px; top: 78%;  left: 58%; animation: subirBolha1 8.5s ease-in-out infinite 1.8s; }
+  .bolha.b6 { width: 44px; height: 44px; top: 4%;   left: 34%; animation: subirBolha2 12s ease-in-out infinite 0.9s; opacity: 0.7; }
+  .bolha.b7 { width: 12px; height: 12px; top: 52%;  left: 88%; animation: subirBolha1 7.5s ease-in-out infinite 0.5s; }
+  .bolha.b8 { width: 22px; height: 22px; top: 86%;  left: 8%;  animation: subirBolha2 9.5s ease-in-out infinite 1.4s; }
+
+  @keyframes subirBolha1 {
+    0%,100% { transform: translate(0,0); opacity: 0.55; }
+    50%     { transform: translate(10px,-26px); opacity: 1; }
+  }
+  @keyframes subirBolha2 {
+    0%,100% { transform: translate(0,0); opacity: 0.4; }
+    50%     { transform: translate(-14px,-18px); opacity: 0.9; }
+  }
+
+  /* ---------- Indicador "a escrever" no mockup do WhatsApp ---------- */
+  .balao.digitando { display: inline-flex; gap: 4px; padding: 12px 14px; }
+  .balao.digitando span { width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: piscar 1.2s infinite ease-in-out; }
+  .balao.digitando span:nth-child(2) { animation-delay: 0.15s; }
+  .balao.digitando span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes piscar { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+  .balao.surgir { animation: surgirBalao 0.3s ease both; }
+  @keyframes surgirBalao { from { opacity: 0; transform: translateY(6px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  /* ---------- Copiar número ---------- */
+  .copiavel { cursor: pointer; position: relative; border-bottom: 1px dashed var(--acao); }
+  .toast-copiado {
+    position: absolute; left: 0; top: -34px; background: var(--marinho); color: #fff;
+    font-size: 0.78rem; padding: 6px 12px; border-radius: 6px; white-space: nowrap;
+    opacity: 0; transform: translateY(4px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none;
+  }
+  .toast-copiado.mostrar { opacity: 1; transform: translateY(0); }
+
   body {
     font-family: var(--fonte);
     background: var(--fundo);
     color: var(--marinho);
     line-height: 1.55;
-    padding-bottom: 70px;
+    padding-bottom: 24px;
   }
-  a { color: inherit; text-decoration: none; }
+  a { color: inherit; }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--ciano); outline-offset: 3px; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
   .wrap-estreito { max-width: 720px; margin: 0 auto; padding: 0 24px; }
@@ -65,7 +145,7 @@
     border-radius: var(--raio); text-decoration: none;
   }
 
-  /* ---------- Hero ---------- */
+  /* ---------- Hero: assimétrico, dois blocos ---------- */
   .hero {
     background: var(--marinho); color: #fff;
     padding: 52px 0 60px;
@@ -100,7 +180,7 @@
   .hero .cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,99,235,0.3); }
   .hero .resposta { font-size: 0.85rem; color: #64748b; }
 
-  /* ---------- Mockup de telemóvel ---------- */
+  /* ---------- Mockup de telemóvel com conversa no WhatsApp ---------- */
   .telefone-caixa { display: flex; justify-content: center; animation: subir 0.6s 0.1s ease both; }
   .telefone {
     width: 240px; background: #0b0f19; border-radius: 30px; padding: 12px;
@@ -121,6 +201,21 @@
   .balao { max-width: 82%; padding: 8px 11px; border-radius: 12px; font-size: 0.78rem; line-height: 1.35; }
   .balao.recebida { background: #ffffff; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 3px; }
   .balao.enviada { background: #d9fdd3; color: #0b2b17; align-self: flex-end; border-bottom-right-radius: 3px; }
+
+  /* ---------- Selo 3D do logótipo, no topo do herói ---------- */
+  .logo3d-zona { display: flex; justify-content: center; padding-top: 8px; margin-bottom: 8px; }
+  .logo3d-badge {
+    position: relative; width: 176px; height: 176px;
+  }
+  .logo3d-fundo {
+    position: absolute; inset: 0; border-radius: 40px;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    box-shadow: 0 30px 60px -10px rgba(37,99,235,0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+    animation: flutuarBadge 5s ease-in-out infinite;
+  }
+  @keyframes flutuarBadge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .logo3d-badge canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+
   .telefone .pagina-preview {
     margin: 4px 10px 0; background: #fff; border-radius: 8px; padding: 8px 10px;
     display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: #334155;
@@ -130,11 +225,15 @@
 
   @keyframes subir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ---------- Faixa de números ---------- */
+  /* ---------- Faixa de números, com separadores em vez de cartões ---------- */
   .faixa { border-bottom: 1px solid var(--linha); background: #fff; }
-  .faixa .wrap { display: flex; flex-wrap: wrap; padding: 22px 24px; }
+  .faixa .wrap {
+    display: flex; flex-wrap: wrap;
+    padding: 22px 24px;
+  }
   .faixa-item {
-    flex: 1 1 33%; min-width: 160px; padding: 6px 20px;
+    flex: 1 1 33%; min-width: 160px;
+    padding: 6px 20px;
     border-left: 1px solid var(--linha);
   }
   .faixa-item:first-child { border-left: none; }
@@ -142,8 +241,18 @@
   .faixa-item .rotulo { font-size: 0.85rem; color: var(--texto-suave); margin-top: 2px; }
 
   /* ---------- Secções ---------- */
-  section { padding: 52px 0; }
+  section { padding: 52px 0; position: relative; overflow: hidden; }
   section + section { border-top: 1px solid var(--linha); }
+  section > .wrap-estreito, section > .wrap { position: relative; z-index: 1; }
+
+  /* ---------- Logótipo em marca de água, nos fundos brancos ---------- */
+  .marca-agua {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 420px; height: 420px; z-index: 0; pointer-events: none;
+  }
+  .marca-agua svg { width: 100%; height: 100%; }
+  .marca-agua.direita { right: -110px; }
+  .marca-agua.esquerda { left: -110px; }
   h2 { font-size: 1.55rem; color: var(--marinho); margin-bottom: 26px; font-weight: 800; letter-spacing: -0.01em; }
 
   /* Prova real */
@@ -160,7 +269,7 @@
     border-bottom: 1px solid var(--acao); padding-bottom: 1px;
   }
 
-  /* Processo */
+  /* Processo — sequência real */
   .passos { display: flex; flex-direction: column; gap: 20px; }
   .passo { display: flex; gap: 16px; align-items: flex-start; }
   .passo .num {
@@ -172,7 +281,7 @@
   .passo h3 { font-size: 1rem; color: var(--marinho); margin-bottom: 3px; }
   .passo p { font-size: 0.95rem; color: var(--texto-suave); }
 
-  /* Pacotes */
+  /* Pacotes — hierarquia real, não gémeos */
   .grelha-pacotes { display: grid; grid-template-columns: 1fr; gap: 18px; }
   @media (min-width: 700px) { .grelha-pacotes { grid-template-columns: 1fr 1fr; } }
 
@@ -212,11 +321,12 @@
   }
 
   /* Contacto */
-  .contacto-caixa { display: flex; flex-direction: column; gap: 16px; background: #fff; border: 1px solid var(--linha); border-radius: var(--raio); padding: 24px; max-width: 620px; }
+  .contacto-lista { display: flex; flex-direction: column; gap: 10px; font-size: 0.98rem; }
+  .contacto-lista strong { color: var(--marinho); }
 
-  footer { background: var(--marinho); padding: 28px 0; font-size: 0.8rem; color: #64748b; text-align: center; }
+  footer { background: var(--marinho); padding: 28px 0; font-size: 0.8rem; color: #64748b; }
 
-  /* Serviços */
+  /* Serviços — com ícone próprio, não fotos de banco de imagens */
   .grelha-servicos { display: grid; grid-template-columns: 1fr; gap: 16px; }
   @media (min-width: 700px) { .grelha-servicos { grid-template-columns: repeat(3, 1fr); } }
   .servico-card {
@@ -241,7 +351,7 @@
   .exemplo-logo .legenda .rotulo-prova { font-size: 0.82rem; color: var(--acao); font-weight: 700; margin-bottom: 6px; }
   .exemplo-logo .legenda p { font-size: 0.92rem; color: var(--texto-suave); max-width: 32ch; }
 
-  /* Outros serviços */
+  /* Outros serviços — cartões simples, mesma família visual dos pacotes */
   .grelha-outros { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 24px; }
   @media (min-width: 700px) { .grelha-outros { grid-template-columns: 1fr 1fr; } }
   .outro-servico {
@@ -252,13 +362,17 @@
   .outro-servico ul { padding-left: 18px; font-size: 0.92rem; }
   .outro-servico li { margin-bottom: 5px; color: var(--texto-suave); }
 
-  /* Botão Fixo do WhatsApp */
-  .whatsapp-fixo {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--whatsapp); color: #06280f;
-    text-align: center; padding: 14px; font-weight: 800; font-size: 1rem; z-index: 30;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  /* ---------- Botão flutuante do WhatsApp ---------- */
+  .whatsapp-fab {
+    position: fixed; bottom: 22px; right: 22px; z-index: 30;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--whatsapp);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 26px rgba(6,40,15,0.35);
+    animation: pulso 2.4s ease-in-out infinite;
   }
+  .whatsapp-fab:hover { animation: none; transform: scale(1.06); }
+  .whatsapp-fab svg { width: 30px; height: 30px; }
 </style>
 </head>
 <body>
@@ -274,11 +388,28 @@
 </header>
 
 <div id="topo" class="hero">
+  <div class="forma-flutuante f1"></div>
+  <div class="forma-flutuante f2"></div>
+  <div class="bolha b1"></div>
+  <div class="bolha b2"></div>
+  <div class="bolha b3"></div>
+  <div class="bolha b4"></div>
+  <div class="bolha b5"></div>
+  <div class="bolha b6"></div>
+  <div class="bolha b7"></div>
+  <div class="bolha b8"></div>
+
+  <div class="logo3d-zona">
+    <div class="logo3d-badge" id="logo3d-badge">
+      <div class="logo3d-fundo"></div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="hero-copy">
       <div class="etiqueta">Páginas & Soluções Web · Beira</div>
       <h1>A página do teu negócio, <span class="destaque">pronta em 7 dias</span></h1>
-      <p>Feita para telemóvel e ligada directamente ao teu WhatsApp, sem mensalidades de alojamento.</p>
+      <p>Feita para telemóvel e ligada directamente ao teu WhatsApp — sem mensalidades de alojamento.</p>
       <div class="hero-cta-linha">
         <a class="cta" href="https://wa.me/258860640555?text=Ol%C3%A1%2C%20vi%20a%20p%C3%A1gina%20Yuri%20Digital%20e%20quero%20saber%20mais">
           Quero a minha página
@@ -291,14 +422,7 @@
       <div class="telefone">
         <div class="ecra">
           <div class="barra-topo"><span class="ponto"></span> Yuri Digital · online</div>
-          <div class="conversa">
-            <div class="balao recebida">Olá! Vi a vossa página, quero saber mais 👋</div>
-            <div class="balao enviada">Bem-vindo! A tua página fica pronta em 7 dias 😊</div>
-            <div class="pagina-preview">
-              <div class="quadrado"></div>
-              <div>https://yuridigitalmz.github.io/yuridigital/</div>
-            </div>
-          </div>
+          <div class="conversa" id="conversa-demo"></div>
         </div>
       </div>
     </div>
@@ -307,15 +431,15 @@
 
 <div class="faixa">
   <div class="wrap">
-    <div class="faixa-item">
+    <div class="faixa-item reveal">
       <div class="valor">7 dias</div>
       <div class="rotulo">Da conversa à página no ar</div>
     </div>
-    <div class="faixa-item">
+    <div class="faixa-item reveal">
       <div class="valor">0 MT/mês</div>
       <div class="rotulo">Sem custos de alojamento</div>
     </div>
-    <div class="faixa-item">
+    <div class="faixa-item reveal">
       <div class="valor">Beira</div>
       <div class="rotulo">Feito para a realidade local</div>
     </div>
@@ -323,11 +447,16 @@
 </div>
 
 <section id="servicos">
+  <div class="marca-agua direita">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 28 30 L 18 40 L 28 50 M 52 30 L 62 40 L 52 50 M 44 25 L 36 55" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.045"/>
+    </svg>
+  </div>
   <div class="wrap-estreito">
     <h2>O que faço</h2>
     <div class="grelha-servicos">
 
-      <div class="servico-card">
+      <div class="servico-card reveal">
         <div class="icone-servico">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="4" width="18" height="16" rx="2"/>
@@ -341,7 +470,7 @@
         <div class="servico-preco">Desde 1.250 MT</div>
       </div>
 
-      <div class="servico-card">
+      <div class="servico-card reveal">
         <div class="icone-servico">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="15" r="5"/>
@@ -350,10 +479,10 @@
         </div>
         <h3>Criação de Logótipo</h3>
         <p>Identidade visual simples e profissional para o teu negócio, pronta a usar.</p>
-        <div class="servico-preco">Desde 700 MT</div>
+        <div class="servico-preco">Desde 500 MT</div>
       </div>
 
-      <div class="servico-card">
+      <div class="servico-card reveal">
         <div class="icone-servico">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16v12H8l-4 4V4z"/>
@@ -373,32 +502,37 @@
 <section id="prova">
   <div class="wrap-estreito">
     <h2>Um exemplo real</h2>
-    <div class="prova">
+    <div class="prova reveal">
       <div class="rotulo-prova">CLIENTE ACTUAL</div>
       <h3>Jeckson Barbeiro Sorriso — Macuti, Beira</h3>
       <p>Página com tabela de preços, galeria de trabalhos e botão directo de agendamento no WhatsApp. Publicada em menos de 7 dias, sem custo de alojamento.</p>
-      <a class="ver-site" href="https://yuridigitalmz.github.io/BarbeariaJackson/">Ver o site →</a>
+      <a class="ver-site" href="https://yuriantoniovasco7-cmd.github.io/BarbeariaJackson/">Ver o site →</a>
     </div>
   </div>
 </section>
 
 <section id="como-funciona">
+  <div class="marca-agua esquerda">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 28 30 L 18 40 L 28 50 M 52 30 L 62 40 L 52 50 M 44 25 L 36 55" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.045"/>
+    </svg>
+  </div>
   <div class="wrap-estreito">
     <h2>Como funciona</h2>
     <div class="passos">
-      <div class="passo">
+      <div class="passo reveal">
         <div class="num">1</div>
         <div><h3>Conversa rápida</h3><p>Envias-me o nome do negócio, fotos, serviços e preços pelo WhatsApp.</p></div>
       </div>
-      <div class="passo">
+      <div class="passo reveal">
         <div class="num">2</div>
         <div><h3>Catálogo no telemóvel</h3><p>Organizo os teus produtos ou serviços num catálogo dentro do próprio WhatsApp.</p></div>
       </div>
-      <div class="passo">
+      <div class="passo reveal">
         <div class="num">3</div>
         <div><h3>Criação da página</h3><p>Monto a página do teu negócio, pronta para quem acede pelo telemóvel.</p></div>
       </div>
-      <div class="passo">
+      <div class="passo reveal">
         <div class="num">4</div>
         <div><h3>Entrega, até ao 7º dia</h3><p>Envio o link e mostro-te como actualizar preços e fotos sozinho, sem custos extra.</p></div>
       </div>
@@ -407,10 +541,15 @@
 </section>
 
 <section id="pacotes">
+  <div class="marca-agua direita">
+    <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 28 30 L 18 40 L 28 50 M 52 30 L 62 40 L 52 50 M 44 25 L 36 55" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.045"/>
+    </svg>
+  </div>
   <div class="wrap-estreito">
     <h2>Pacotes em promoção</h2>
     <div class="grelha-pacotes">
-      <div class="pacote-essencial">
+      <div class="pacote-essencial reveal">
         <h3>Página Essencial</h3>
         <div class="preco">1.250 – 2.250 MT</div>
         <ul>
@@ -421,7 +560,7 @@
           <li>Entrega em até 7 dias</li>
         </ul>
       </div>
-      <div class="pacote-completa">
+      <div class="pacote-completa reveal">
         <span class="selo">Mais escolhido</span>
         <h3>Página Completa</h3>
         <div class="preco">2.500 – 5.000 MT</div>
@@ -435,17 +574,16 @@
     </div>
 
     <div class="grelha-outros">
-      <div class="outro-servico">
+      <div class="outro-servico reveal">
         <h3>Criação de Logótipo</h3>
-        <div class="preco">700 – 1.400 MT</div>
+        <div class="preco">500 – 1.500 MT</div>
         <ul>
-          <li>A sua ideia convertida numa arte perfeita</li>
           <li>Design simples e profissional</li>
           <li>2 propostas iniciais + 1 ronda de ajustes</li>
           <li>Ficheiro final em PNG (digital e impressão)</li>
         </ul>
       </div>
-      <div class="outro-servico">
+      <div class="outro-servico reveal">
         <h3>Configuração de Catálogo WhatsApp</h3>
         <div class="preco">300 – 600 MT</div>
         <ul>
@@ -456,7 +594,7 @@
       </div>
     </div>
 
-    <div class="exemplo-logo" style="margin-top: 24px;">
+    <div class="exemplo-logo reveal" style="margin-top: 24px;">
       <svg class="badge-svg" width="90" height="90" viewBox="0 0 90 90">
         <circle cx="45" cy="45" r="42" fill="none" stroke="#0f172a" stroke-width="2"/>
         <circle cx="45" cy="45" r="36" fill="none" stroke="#38bdf8" stroke-width="1"/>
@@ -476,7 +614,7 @@
 <section id="catalogo">
   <div class="wrap-estreito">
     <h2>Vê um catálogo a funcionar</h2>
-    <div class="catalogo-caixa">
+    <div class="catalogo-caixa reveal">
       <p>Antes de decidires, podes ver como fica um catálogo de produtos dentro do WhatsApp — é exactamente o que preparo para cada negócio.</p>
       <a class="cta-secundaria" href="https://wa.me/c/258860640555">Abrir catálogo de exemplo</a>
     </div>
@@ -486,9 +624,9 @@
 <section id="contacto">
   <div class="wrap-estreito">
     <h2>Não fique invisível no mercado. Fale comigo e tenha o seu site profissional!</h2>
-    <div class="contacto-caixa" style="margin-top: 16px;">
-      <div><strong>Zona de atendimento:</strong> 🌐 Beira, Sofala, Moçambique</div>
-      <div><strong>Contacto Directo / WhatsApp:</strong> +258 86 064 0555</div>
+    <div class="contacto-lista">
+      <div><strong>WhatsApp:</strong> <a href="https://wa.me/258860640555">+258 86 064 0555</a></div>
+      <div><strong>Zona de atendimento:</strong> Beira e arredores</div>
     </div>
   </div>
 </section>
@@ -497,9 +635,213 @@
   <div class="wrap-estreito">Yuri Digital · Páginas &amp; Soluções Web · Beira, Moçambique</div>
 </footer>
 
-<a class="whatsapp-fixo" href="https://wa.me/258860640555?text=Ol%C3%A1%2C%20vi%20a%20p%C3%A1gina%20Yuri%20Digital%20e%20quero%20saber%20mais">
-  Falar no WhatsApp
+<a class="whatsapp-fab" href="https://wa.me/258860640555?text=Ol%C3%A1%2C%20vi%20a%20p%C3%A1gina%20Yuri%20Digital%20e%20quero%20saber%20mais" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#06280f" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.02 3C9.37 3 3.98 8.39 3.98 15.04c0 2.24.61 4.34 1.67 6.15L4 29l8-1.6a12.97 12.97 0 0 0 4.02.64c6.65 0 12.04-5.39 12.04-12.04S22.67 3 16.02 3Zm0 21.86c-1.32 0-2.6-.26-3.78-.75l-.27-.12-4.75.95.96-4.63-.14-.28a9.83 9.83 0 0 1-1.48-5.19c0-5.46 4.44-9.9 9.9-9.9 2.64 0 5.13 1.03 6.99 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.9 9.9Zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35Z"/>
+  </svg>
 </a>
+
+<script>
+(function () {
+  // ---------- Revelar ao rolar, com atraso escalonado por grupo ----------
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visivel'); });
+  } else {
+    var contadores = new WeakMap();
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (entrada) {
+        if (entrada.isIntersecting) {
+          var pai = entrada.target.parentElement;
+          var indice = contadores.get(pai) || 0;
+          entrada.target.style.transitionDelay = (indice * 90) + 'ms';
+          contadores.set(pai, indice + 1);
+          entrada.target.classList.add('visivel');
+          observador.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(function (el) { observador.observe(el); });
+  }
+
+  // Rede de segurança: garante que nada fica escondido, mesmo se o
+  // navegador não disparar o observador correctamente.
+  setTimeout(function () {
+    document.querySelectorAll('.reveal:not(.visivel)').forEach(function (el) {
+      el.classList.add('visivel');
+    });
+  }, 1800);
+
+  // ---------- Cabeçalho ganha sombra ao rolar ----------
+  var cabecalho = document.querySelector('header');
+  window.addEventListener('scroll', function () {
+    cabecalho.classList.toggle('com-scroll', window.scrollY > 12);
+  }, { passive: true });
+
+  // ---------- Conversa do WhatsApp a "escrever" ao vivo ----------
+  var conversa = document.getElementById('conversa-demo');
+  var sequencia = [
+    { tipo: 'digitando', lado: 'recebida', duracao: 900 },
+    { tipo: 'mensagem', lado: 'recebida', texto: 'Olá! Vi a vossa página, quero saber mais 👋' },
+    { tipo: 'digitando', lado: 'enviada', duracao: 1100 },
+    { tipo: 'mensagem', lado: 'enviada', texto: 'Bem-vindo! A tua página fica pronta em 7 dias 😊' },
+    { tipo: 'preview' }
+  ];
+
+  function correrConversa() {
+    if (!conversa || conversa.dataset.executado) return;
+    conversa.dataset.executado = '1';
+    conversa.innerHTML = '';
+    var atraso = 400;
+    sequencia.forEach(function (passo) {
+      if (passo.tipo === 'digitando') {
+        setTimeout(function () {
+          var bolha = document.createElement('div');
+          bolha.className = 'balao ' + passo.lado + ' digitando';
+          bolha.innerHTML = '<span></span><span></span><span></span>';
+          bolha.id = 'digitando-temp';
+          conversa.appendChild(bolha);
+        }, atraso);
+        atraso += passo.duracao;
+        setTimeout(function () {
+          var temp = document.getElementById('digitando-temp');
+          if (temp) temp.remove();
+        }, atraso);
+      } else if (passo.tipo === 'mensagem') {
+        setTimeout(function () {
+          var bolha = document.createElement('div');
+          bolha.className = 'balao ' + passo.lado + ' surgir';
+          bolha.textContent = passo.texto;
+          conversa.appendChild(bolha);
+        }, atraso);
+        atraso += 250;
+      } else if (passo.tipo === 'preview') {
+        setTimeout(function () {
+          var preview = document.createElement('div');
+          preview.className = 'pagina-preview surgir';
+          preview.innerHTML = '<div class="quadrado"></div><div>pagina-do-teu-negocio.netlify.app</div>';
+          conversa.appendChild(preview);
+        }, atraso + 200);
+      }
+    });
+  }
+
+  if (conversa) {
+    if (!('IntersectionObserver' in window)) {
+      correrConversa();
+    } else {
+      var obsConversa = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (entrada) {
+          if (entrada.isIntersecting) { correrConversa(); obsConversa.disconnect(); }
+        });
+      }, { threshold: 0.4 });
+      obsConversa.observe(conversa);
+    }
+    // Rede de segurança: corre a conversa de qualquer forma se o
+    // scroll não a tiver activado a tempo.
+    setTimeout(correrConversa, 2500);
+  }
+
+  // ---------- Selo 3D do logótipo (Three.js) ----------
+  (function iniciarLogo3D() {
+    var container = document.getElementById('logo3d-badge');
+    if (!container || typeof THREE === 'undefined') return;
+    if (!window.WebGLRenderingContext) return;
+
+    var reduzirMovimento = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var largura = container.clientWidth, altura = container.clientHeight;
+    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(largura, altura);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    container.appendChild(renderer.domElement);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(32, largura / altura, 0.1, 10);
+    camera.position.set(0, 0, 3.1);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    var luzAzul = new THREE.DirectionalLight(0x60a5fa, 1.1);
+    luzAzul.position.set(-2, 2, 3);
+    scene.add(luzAzul);
+    var luzCiano = new THREE.DirectionalLight(0x38bdf8, 0.8);
+    luzCiano.position.set(2, -1, 2);
+    scene.add(luzCiano);
+
+    // Constrói o símbolo </> como barras 3D, a partir das mesmas
+    // coordenadas usadas no logótipo SVG plano (viewBox 0 0 80 80).
+    var grupo = new THREE.Group();
+    var material = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.25, roughness: 0.35 });
+    var espessura = 0.16;
+
+    function paraCena(x, y) { return [ (x - 40) / 40, -(y - 40) / 40 ]; }
+
+    function adicionarBarra(x1, y1, x2, y2) {
+      var p1 = paraCena(x1, y1), p2 = paraCena(x2, y2);
+      var dx = p2[0] - p1[0], dy = p2[1] - p1[1];
+      var comprimento = Math.hypot(dx, dy);
+      var geo = new THREE.BoxGeometry(comprimento + espessura * 0.6, espessura, espessura);
+      var barra = new THREE.Mesh(geo, material);
+      barra.position.set((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2, 0);
+      barra.rotation.z = Math.atan2(dy, dx);
+      grupo.add(barra);
+    }
+
+    adicionarBarra(28, 30, 18, 40);
+    adicionarBarra(18, 40, 28, 50);
+    adicionarBarra(52, 30, 62, 40);
+    adicionarBarra(62, 40, 52, 50);
+    adicionarBarra(44, 25, 36, 55);
+
+    grupo.scale.set(1.15, 1.15, 1.15);
+    scene.add(grupo);
+
+    grupo.rotation.x = -0.15;
+
+    var relogio = 0;
+    function animar() {
+      if (!reduzirMovimento) {
+        relogio += 0.01;
+        grupo.rotation.y = Math.sin(relogio) * 0.9;
+        grupo.rotation.x = -0.15 + Math.sin(relogio * 0.7) * 0.08;
+        requestAnimationFrame(animar);
+      }
+      renderer.render(scene, camera);
+    }
+    animar();
+
+    window.addEventListener('resize', function () {
+      var w = container.clientWidth, h = container.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      if (reduzirMovimento) renderer.render(scene, camera);
+    });
+  })();
+
+  document.querySelectorAll('.contacto-lista a[href^="https://wa.me"]').forEach(function (link) {
+    link.classList.add('copiavel');
+    link.style.position = 'relative';
+    var toast = document.createElement('span');
+    toast.className = 'toast-copiado';
+    toast.textContent = 'Número copiado!';
+    link.appendChild(toast);
+
+    link.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var numero = link.textContent.replace('Número copiado!', '').trim();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(numero).then(function () {
+          toast.classList.add('mostrar');
+          setTimeout(function () { toast.classList.remove('mostrar'); }, 1600);
+        });
+      }
+      window.open(link.href, '_blank');
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
