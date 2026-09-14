@@ -131,6 +131,12 @@
   /* ---------- Cabeçalho ---------- */
   header { position: sticky; top: 0; z-index: 20; background: var(--marinho); }
   header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-grupo { display: flex; align-items: center; gap: 14px; }
+  .nav-pedido {
+    font-weight: 600; font-size: 0.82rem; color: #cbd5e1; text-decoration: none;
+    white-space: nowrap; display: none;
+  }
+  @media (min-width: 480px) { .nav-pedido { display: inline; } }
   .logo-mini { display: flex; align-items: center; gap: 9px; text-decoration: none; }
   .logo-mini .icone {
     width: 30px; height: 30px; border-radius: 8px; background: var(--acao);
@@ -142,7 +148,13 @@
   .nav-contacto {
     font-weight: 700; font-size: 0.85rem; padding: 9px 16px;
     background: var(--whatsapp); color: #06280f;
-    border-radius: var(--raio); text-decoration: none;
+    border-radius: var(--raio); text-decoration: none; white-space: nowrap;
+  }
+  .nav-contacto .texto-curto { display: inline; }
+  .nav-contacto .texto-longo { display: none; }
+  @media (min-width: 480px) {
+    .nav-contacto .texto-curto { display: none; }
+    .nav-contacto .texto-longo { display: inline; }
   }
 
   /* ---------- Hero: assimétrico, dois blocos ---------- */
@@ -362,7 +374,33 @@
   .outro-servico ul { padding-left: 18px; font-size: 0.92rem; }
   .outro-servico li { margin-bottom: 5px; color: var(--texto-suave); }
 
-  /* ---------- Botão flutuante do WhatsApp ---------- */
+  /* ---------- Formulário de pedido rápido ---------- */
+  .form-pedido {
+    display: flex; flex-direction: column; gap: 16px;
+    background: #fff; border: 1px solid var(--linha); border-radius: var(--raio);
+    padding: 28px; max-width: 620px;
+  }
+  .campo { display: flex; flex-direction: column; gap: 6px; }
+  .campo label { font-size: 0.88rem; font-weight: 700; color: var(--marinho); }
+  .campo input, .campo select, .campo textarea {
+    font-family: var(--fonte); font-size: 0.95rem; color: var(--marinho);
+    border: 1px solid var(--linha); border-radius: 8px; padding: 12px 14px;
+    background: var(--fundo);
+  }
+  .campo input:focus, .campo select:focus, .campo textarea:focus {
+    outline: 2px solid var(--ciano); outline-offset: 1px; background: #fff;
+  }
+  .campo textarea { resize: vertical; min-height: 90px; font-family: var(--fonte); }
+  .botao-enviar-pedido {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--whatsapp); color: #06280f; font-weight: 800; font-size: 1rem;
+    border: none; border-radius: var(--raio); padding: 15px 24px; cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .botao-enviar-pedido:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(37,211,102,0.3); }
+  .botao-enviar-pedido svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .form-nota { font-size: 0.82rem; color: var(--texto-suave); }
+
   .whatsapp-fab {
     position: fixed; bottom: 22px; right: 22px; z-index: 30;
     width: 60px; height: 60px; border-radius: 50%;
@@ -383,7 +421,10 @@
       <span class="icone">&lt;/&gt;</span>
       <span class="nome">YURI <span>DIGITAL</span></span>
     </a>
-    <a class="nav-contacto" href="#contacto">Falar no WhatsApp</a>
+    <div class="nav-grupo">
+      <a class="nav-pedido" href="#comecar">Pedido rápido</a>
+      <a class="nav-contacto" href="#contacto"><span class="texto-curto">WhatsApp</span><span class="texto-longo">Falar no WhatsApp</span></a>
+    </div>
   </div>
 </header>
 
@@ -506,7 +547,7 @@
       <div class="rotulo-prova">CLIENTE ACTUAL</div>
       <h3>Jeckson Barbeiro Sorriso — Macuti, Beira</h3>
       <p>Página com tabela de preços, galeria de trabalhos e botão directo de agendamento no WhatsApp. Publicada em menos de 7 dias, sem custo de alojamento.</p>
-      <a class="ver-site" href="https://yuridigitalmz.github.io/BarbeariaJackson/">Ver o site →</a>
+      <a class="ver-site" href="https://yuriantoniovasco7-cmd.github.io/BarbeariaJackson/">Ver o site →</a>
     </div>
   </div>
 </section>
@@ -618,6 +659,44 @@
       <p>Antes de decidires, podes ver como fica um catálogo de produtos dentro do WhatsApp — é exactamente o que preparo para cada negócio.</p>
       <a class="cta-secundaria" href="https://wa.me/c/258860640555">Abrir catálogo de exemplo</a>
     </div>
+  </div>
+</section>
+
+<section id="comecar">
+  <div class="wrap-estreito">
+    <h2>Conta-me sobre o teu negócio</h2>
+    <form class="form-pedido reveal" id="form-pedido">
+      <div class="campo">
+        <label for="campo-nome">O teu nome</label>
+        <input type="text" id="campo-nome" name="nome" placeholder="Ex: Jeckson" required>
+      </div>
+      <div class="campo">
+        <label for="campo-negocio">Tipo de negócio</label>
+        <input type="text" id="campo-negocio" name="negocio" placeholder="Ex: salão de beleza, loja de roupa, oficina..." required>
+      </div>
+      <div class="campo">
+        <label for="campo-servico">O que te interessa</label>
+        <select id="campo-servico" name="servico" required>
+          <option value="" disabled selected>Escolhe uma opção</option>
+          <option>Página Essencial</option>
+          <option>Página Completa</option>
+          <option>Criação de Logótipo</option>
+          <option>Configuração de Catálogo WhatsApp</option>
+          <option>Ainda não sei, quero saber mais</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="campo-detalhes">Conta-me um pouco mais (opcional)</label>
+        <textarea id="campo-detalhes" name="detalhes" placeholder="O que precisas, prazos, ideias que já tenhas..."></textarea>
+      </div>
+      <button type="submit" class="botao-enviar-pedido">
+        <svg viewBox="0 0 32 32" fill="#06280f" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.02 3C9.37 3 3.98 8.39 3.98 15.04c0 2.24.61 4.34 1.67 6.15L4 29l8-1.6a12.97 12.97 0 0 0 4.02.64c6.65 0 12.04-5.39 12.04-12.04S22.67 3 16.02 3Zm0 21.86c-1.32 0-2.6-.26-3.78-.75l-.27-.12-4.75.95.96-4.63-.14-.28a9.83 9.83 0 0 1-1.48-5.19c0-5.46 4.44-9.9 9.9-9.9 2.64 0 5.13 1.03 6.99 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.46-4.44 9.9-9.9 9.9Z"/>
+        </svg>
+        Enviar pelo WhatsApp
+      </button>
+      <div class="form-nota">Ao enviar, o WhatsApp abre com a mensagem já pronta — só precisas de confirmar o envio.</div>
+    </form>
   </div>
 </section>
 
@@ -819,6 +898,29 @@
       if (reduzirMovimento) renderer.render(scene, camera);
     });
   })();
+
+  // ---------- Formulário de pedido rápido → WhatsApp ----------
+  var formPedido = document.getElementById('form-pedido');
+  if (formPedido) {
+    formPedido.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var nome = formPedido.nome.value.trim();
+      var negocio = formPedido.negocio.value.trim();
+      var servico = formPedido.servico.value;
+      var detalhes = formPedido.detalhes.value.trim();
+
+      var linhas = [
+        'Olá! Quero um orçamento pela página:',
+        'Nome: ' + nome,
+        'Tipo de negócio: ' + negocio,
+        'Interesse: ' + servico
+      ];
+      if (detalhes) linhas.push('Detalhes: ' + detalhes);
+
+      var mensagem = encodeURIComponent(linhas.join('\n'));
+      window.open('https://wa.me/258860640555?text=' + mensagem, '_blank');
+    });
+  }
 
   document.querySelectorAll('.contacto-lista a[href^="https://wa.me"]').forEach(function (link) {
     link.classList.add('copiavel');
